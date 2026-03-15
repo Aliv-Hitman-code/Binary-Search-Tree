@@ -5,18 +5,18 @@ class BST {
     BST rchild = null;
 }
 public class BinarySearchTree {
-    static BST insert(BST root,BST new1) {
+    static BST insertNode(BST root,BST newnode) {
         if(root == null) {
-            return new1;
+            return newnode;
         }
-        else if(root.data == new1.data) {
-            System.out.println("\n" + new1.data + " already exists in the Binary Tree");
+        else if(root.data == newnode.data) {
+            System.out.println("\n" + newnode.data + " already exists in the Binary Tree");
         } 
-        else if(root.data > new1.data) {
-            root.lchild = insert(root.lchild,new1);
+        else if(root.data > newnode.data) {
+            root.lchild = insertNode(root.lchild,newnode);
         }
         else {
-            root.rchild = insert(root.rchild,new1);
+            root.rchild = insertNode(root.rchild,newnode);
         }
         return root;
     }
@@ -58,19 +58,54 @@ public class BinarySearchTree {
             return search(root.rchild,x);
         }
     }
+    static BST deleteNode(BST root,int x) {
+        if(root.data > x) {
+            root.lchild = deleteNode(root.lchild,x);
+        }
+        else if(root.data < x) {
+            root.rchild = deleteNode(root.rchild,x);
+        } 
+        else {
+            if(root.lchild == null && root.rchild == null) {
+                root = null;
+            }
+            else if(root.lchild != null && root.rchild != null) {
+                BST t = inorderSuccessor(root.rchild);
+                root.data = t.data;
+                root.rchild = deleteNode(root.rchild,t.data);
+            }
+            else if(root.lchild == null) {
+                BST t = root;
+                root = root.rchild;
+                t = null;
+            }
+            else {
+                BST t = root;
+                root = root.lchild;
+                t = null;
+            }
+        }
+        return root;
+    }
+    static BST inorderSuccessor(BST root) {
+        if(root.lchild == null) {
+            return root;
+        }
+        return inorderSuccessor(root.lchild);
+    }
     public static void main(String[] args) {
-        BST root = null,new1;
+        BST root = null,newnode;
         int choice,f,x;
         Scanner scanf = new Scanner(System.in);
         while(true) {
-            System.out.println("\nMENU\n1.Insert\n2.Inorder Traversal\n3.Preorder Traversal\n4.Postorder Traversal\n5.Search\n6.Exit\n");
+            System.out.println("\nMENU\n1.Insert\n2.Inorder Traversal\n3.Preorder Traversal\n4.Postorder Traversal\n5.Search\n6.Delete a node\n7.Exit\n");
             System.out.print("Enter your choice : ");
             choice = scanf.nextInt();
             switch(choice) {
-                case 1: new1 = new BST();
+                case 1: newnode = new BST();
                         System.out.print("\nEnter the data : ");
-                        new1.data = scanf.nextInt();
-                        root = insert(root,new1);
+                        newnode.data = scanf.nextInt();
+                        root = insertNode(root,newnode);
                         break;
                 case 2: if(root == null) {
                             System.out.println("\nNo Binary tree has been created");
@@ -114,7 +149,23 @@ public class BinarySearchTree {
                             }
                         }
                         break;
-                case 6: System.out.println("\nExiting");
+                 case 6: if(root == null) {
+                            System.out.println("\nNo Binary tree has been created");
+                        }
+                        else {
+                            System.out.print("\nEnter the deleting data : ");
+                            x = scanf.nextInt();
+                            f = search(root,x);
+                            if(f == 0) {
+                                System.out.println("\n" + x + " is deleted from the binary tree");
+                                root = deleteNode(root,x);
+                            }
+                            else {
+                                System.out.println("\n" + x + " doesn't exists in the binary tree");
+                            }
+                        }
+                        break;
+                case 7: System.out.println("\nExiting");
                         System.exit(0);
                 default:System.out.println("\nInvalid choice");
             }
