@@ -67,7 +67,7 @@ public class BinarySearchTree {
         } 
         else {
             if(root.lchild == null && root.rchild == null) {
-                root = null;
+                return null;
             }
             else if(root.lchild != null && root.rchild != null) {
                 BST t = inorderSuccessor(root.rchild);
@@ -75,14 +75,10 @@ public class BinarySearchTree {
                 root.rchild = deleteNode(root.rchild,t.data);
             }
             else if(root.lchild == null) {
-                BST t = root;
                 root = root.rchild;
-                t = null;
             }
             else {
-                BST t = root;
                 root = root.lchild;
-                t = null;
             }
         }
         return root;
