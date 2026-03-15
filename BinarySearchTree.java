@@ -33,15 +33,15 @@ public class BinarySearchTree {
             return;
         }
         System.out.print(root.data + " ");
-        inOrder(root.lchild);
-        inOrder(root.rchild);
+        preOrder(root.lchild);
+        preOrder(root.rchild);
     }
     static void postOrder(BST root) {
         if(root == null) {
             return;
         }
-        inOrder(root.lchild);
-        inOrder(root.rchild);
+        postOrder(root.lchild);
+        postOrder(root.rchild);
         System.out.print(root.data + " ");
     }
     static int search(BST root,int x) {
