@@ -5,6 +5,52 @@ class BST {
     BST rchild = null;
 }
 public class BinarySearchTree {
+    static void levelOrder(BST root) {
+        int h = height(root);
+        for(int i = 0 ; i < h ; i++) {
+            printLevel(root,i);
+        }   
+    }
+    static void printLevel(BST root,int l) {
+        if(root == null) {
+            return;
+        }
+        else if(l == 0) {
+            System.err.print(root.data + " ");
+            return;
+        }
+        printLevel(root.lchild, l - 1);
+        printLevel(root.rchild, l - 1);
+    }
+    static int intNode(BST root) {
+        if(root == null) {
+            return 0;
+        }
+        else if(root.lchild == null && root.rchild == null) {
+            return 0;
+        }
+        return (intNode(root.lchild) + intNode(root.rchild) + 1);
+    }
+    static int height(BST root) {
+        if(root == null) {
+            return 0;
+        }
+        int l = height(root.lchild);
+        int r = height(root.rchild);
+        if(l > r) {
+            return (l + 1);
+        }
+        return (r + 1);
+    }
+    static int extNode(BST root) {
+        if(root == null) {
+            return 0;
+        }
+        else if(root.lchild == null && root.rchild == null) {
+            return 1;
+        }
+        return (extNode(root.lchild) + extNode(root.rchild));
+    }
     static BST insertNode(BST root,BST newnode) {
         if(root == null) {
             return newnode;
@@ -94,7 +140,7 @@ public class BinarySearchTree {
         int choice,f,x;
         Scanner scanf = new Scanner(System.in);
         while(true) {
-            System.out.println("\nMENU\n1.Insert\n2.Inorder Traversal\n3.Preorder Traversal\n4.Postorder Traversal\n5.Search\n6.Delete a node\n7.Exit\n");
+            System.out.println("\nMENU\n1.Insert\n2.Inorder Traversal\n3.Preorder Traversal\n4.Postorder Traversal\n5.Search\n6.Delete a node\n7.No of internal nodes\n8.No of external nodes\n9.Height of the tree\n10.Level order traversal\n11.Exit\n");
             System.out.print("Enter your choice : ");
             choice = scanf.nextInt();
             switch(choice) {
@@ -130,7 +176,7 @@ public class BinarySearchTree {
                             System.out.println();
                         }
                         break;
-                 case 5: if(root == null) {
+                case 5: if(root == null) {
                             System.out.println("\nNo Binary tree has been created");
                         }
                         else {
@@ -145,7 +191,7 @@ public class BinarySearchTree {
                             }
                         }
                         break;
-                 case 6: if(root == null) {
+                case 6: if(root == null) {
                             System.out.println("\nNo Binary tree has been created");
                         }
                         else {
@@ -161,7 +207,40 @@ public class BinarySearchTree {
                             }
                         }
                         break;
-                case 7: System.out.println("\nExiting");
+                case 7: if(root == null) {
+                            System.out.println("\nNo binary tree has been created");
+                        }
+                        else {
+                            x = intNode(root);
+                            System.err.println("\nThe no of internal nodes are : " + x);
+                        }   
+                        break; 
+                case 8: if(root == null) {
+                            System.out.println("\nNo binary tree has been created");
+                        }
+                        else {
+                            x = extNode(root);
+                            System.err.println("\nThe no of external nodes are : " + x);
+                        }   
+                        break; 
+                case 9: if(root == null) {
+                            System.out.println("\nNo binary tree has been created");
+                        }
+                        else {
+                            x = height(root);
+                            System.err.println("\nThe height of the tree is : " + x);
+                        }   
+                        break;
+                case 10:if(root == null) {
+                            System.out.println("\nNo Binary tree has been created");
+                        }
+                        else {
+                            System.out.print("\nThe Level order Traversal of the binary tree is : ");
+                            levelOrder(root);
+                            System.out.println();
+                        }
+                        break; 
+                case 11:System.out.println("\nExiting");
                         System.exit(0);
                 default:System.out.println("\nInvalid choice");
             }
